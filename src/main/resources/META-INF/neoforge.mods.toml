@@ -1,0 +1,48 @@
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "${mod_authors}"
+description = '''${mod_description}'''
+
+[[mixins]]
+config = "laserio_aditionals.mixins.json"
+
+[[dependencies."${mod_id}"]]
+modId = "neoforge"
+mandatory = true
+versionRange = "${neo_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "minecraft"
+mandatory = true
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "laserio"
+mandatory = true
+versionRange = "[1.9.11,1.10)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "pneumaticcraft"
+mandatory = false
+versionRange = "[8.0.3,9)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "ae2"
+mandatory = false
+versionRange = "[19.0.20-beta,20)"
+ordering = "AFTER"
+side = "BOTH"

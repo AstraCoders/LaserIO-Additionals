@@ -1,0 +1,13 @@
+{
+	"item.laserio_aditionals.channel_card": "AE2 Channel Card",
+	"item.laserio_aditionals.channel_card.selected_channel": "LaserIO channel set to %s",
+	"item.laserio_aditionals.channel_card.tooltip": "Shift-right-click in hand to change LaserIO channel",
+	"item.laserio_aditionals.channel_card.linked_channel": "Bidirectional AE2 link — LaserIO channel %s",
+	"item.laserio_aditionals.channel_card.configuration": "Right-click in hand to edit channel",
+	"item.laserio_aditionals.pressure_card": "PneumaticCraft Pressure Card",
+	"item.laserio_aditionals.pressure_card.selected_channel": "LaserIO channel set to %s",
+	"item.laserio_aditionals.pressure_card.selected_mode": "Pressure card set to %s",
+	"gui.laserio_aditionals.pressure_card.rate": "Pressure transfer rate",
+	"laserio_aditionals.tooltip.card.rate": "Rate: ",
+	"itemGroup.laserio_aditionals": "LaserIO Additionals"
+}

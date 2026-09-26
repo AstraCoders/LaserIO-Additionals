@@ -1,0 +1,74 @@
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'net.neoforged.gradle.userdev' version '7.0.192'
+}
+
+group = mod_group_id
+version = mod_version
+
+base { archivesName = mod_id }
+
+java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
+
+repositories {
+    maven { url = 'https://www.cursemaven.com' }
+}
+
+runs {
+    configureEach {
+        modSource sourceSets.main
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
+    }
+    client { systemProperty 'forge.enabledGameTestNamespaces', mod_id }
+    server {
+        systemProperty 'forge.enabledGameTestNamespaces', mod_id
+        arguments.add '--nogui'
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+dependencies {
+    implementation "net.neoforged:neoforge:${neo_version}"
+
+    // Pinned 1.21.1 NeoForge releases from CurseForge via CurseMaven.
+    compileOnly "curse.maven:laserio-626839:5730007"
+    runtimeOnly "curse.maven:laserio-626839:5730007"
+    compileOnly "curse.maven:pneumaticcraft-repressurized-281849:5619556"
+    runtimeOnly "curse.maven:pneumaticcraft-repressurized-281849:5619556"
+    compileOnly "curse.maven:applied-energistics-2-223794:5610903"
+    runtimeOnly "curse.maven:applied-energistics-2-223794:5610903"
+}
+
+tasks.withType(ProcessResources).configureEach {
+    def replaceProperties = [
+            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+            neo_version: neo_version, neo_version_range: neo_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors: mod_authors, mod_description: mod_description
+    ]
+    inputs.properties replaceProperties
+    filesMatching(['META-INF/neoforge.mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    manifest {
+        attributes([
+                'Specification-Title': mod_id,
+                'Specification-Vendor': mod_authors,
+                'Specification-Version': '1',
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.jar.archiveVersion,
+                'Implementation-Vendor': mod_authors,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
