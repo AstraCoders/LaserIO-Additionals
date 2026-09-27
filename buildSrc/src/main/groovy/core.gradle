@@ -1,0 +1,36 @@
+plugins {
+	id 'net.darkhax.curseforgegradle'
+}
+
+def getSecrets() {
+	Properties props = new Properties()
+	println(file('./secrets.properties'))
+	if (file('./secrets.properties').exists()) {
+		props.load(new FileInputStream(file("./secrets.properties")))
+	}
+	return props
+}
+
+def getCurseforgeKey() {
+	if(secrets.curseforge_key) {
+		return secrets.curseforge_key
+	} else if(System.getenv().CURSEFORGE_KEY_SECRET) {
+		return System.getenv().CURSEFORGE_KEY_SECRET
+	} else {
+		return "DUMMY"
+	}
+}
+
+def getChangelog() {
+	return "CHANGELOG.md"
+}
+
+ext {
+	secrets = getSecrets()
+	secrets.curseforgeKey = getCurseforgeKey()
+	secrets.changelog = getChangelog()
+}
+
+base {
+	archivesName = "${mod_id}-mc${minecraft_version}+${version}"
+}
