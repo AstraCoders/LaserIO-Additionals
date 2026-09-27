@@ -1,8 +1,8 @@
 package com.lucasmellof.laserio_aditionals.integration.pneumaticcraft;
 
 import com.direwolf20.laserio.common.blockentities.LaserNodeBE;
-import com.direwolf20.laserio.common.containers.LaserNodeContainer;
 import com.direwolf20.laserio.util.CardRender;
+import com.lucasmellof.laserio_aditionals.LaserNodeCardRegistry;
 import com.lucasmellof.laserio_aditionals.common.LaserNodeCardExtension;
 import me.desht.pneumaticcraft.api.pressure.PressureTier;
 import me.desht.pneumaticcraft.api.tileentity.IAirHandlerMachine;
@@ -11,10 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -62,12 +59,22 @@ public final class PneumaticCraftNodeAdditions implements LaserNodeCardExtension
     }
 
     public boolean hasPressureCard(Direction side) {
-        for (int slot = 0; slot < LaserNodeContainer.CARDSLOTS; slot++) {
-            if (node.nodeSideCaches[side.ordinal()].itemHandler.getStackInSlot(slot).getItem() instanceof PressureCard) {
-                return true;
-            }
+        return LaserNodeCardRegistry.find(node, side, PressureCard.class).isPresent();
+    }
+
+    public int getMaxDispersion(IAirHandlerMachine handler, Direction side) {
+        if (handler != pressureHandler()) {
+            return Integer.MAX_VALUE;
         }
-        return false;
+        if (side == null) {
+            int[] rate = {Integer.MAX_VALUE};
+            LaserNodeCardRegistry.forEach(node, PressureCard.class,
+                    card -> rate[0] = Math.min(rate[0], PressureCard.getRate(card.stack())));
+            return rate[0];
+        }
+        return LaserNodeCardRegistry.find(node, side, PressureCard.class)
+                .map(card -> PressureCard.getRate(card.stack()))
+                .orElse(Integer.MAX_VALUE);
     }
 
     @Override
@@ -109,24 +116,14 @@ public final class PneumaticCraftNodeAdditions implements LaserNodeCardExtension
         if (level == null || !level.isClientSide) {
             return;
         }
-        for (Direction side : Direction.values()) {
-            IItemHandler cards = level.getCapability(Capabilities.ItemHandler.BLOCK, node.getBlockPos(), side);
-            if (cards == null) {
-                continue;
-            }
-            for (int slot = 0; slot < cards.getSlots(); slot++) {
-                ItemStack card = cards.getStackInSlot(slot);
-                if (!(card.getItem() instanceof PressureCard)) {
-                    continue;
-                }
-                CardRender render = new CardRender(side, slot, card, node.getBlockPos(), level, true);
-                render.r = PRESSURE_GRAY[0];
-                render.g = PRESSURE_GRAY[1];
-                render.b = PRESSURE_GRAY[2];
-                render.floatcolors = PRESSURE_GRAY.clone();
-                node.cardRenders.add(render);
-            }
-        }
+        LaserNodeCardRegistry.forEach(node, PressureCard.class, card -> {
+            CardRender render = new CardRender(card.side(), card.slot(), card.stack(), node.getBlockPos(), level, true);
+            render.r = PRESSURE_GRAY[0];
+            render.g = PRESSURE_GRAY[1];
+            render.b = PRESSURE_GRAY[2];
+            render.floatcolors = PRESSURE_GRAY.clone();
+            node.cardRenders.add(render);
+        });
     }
 
     private MachineAirHandler pressureHandler() {

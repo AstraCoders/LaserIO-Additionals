@@ -34,7 +34,7 @@ public final class LaserIOIntegrationsMixinPlugin implements IMixinConfigPlugin 
         LOGGER.info("[LIA MixinPlugin] Checking mixin for mod: {} | Mixin class: {}", mod, mixinClassName);
 
 
-        if (FMLLoader.getLoadingModList().getModFileById(mod) != null) {
+        if (FMLLoader.getLoadingModList().getModFileById(mod) == null) {
             LOGGER.info("[LIA MixinPlugin] Mod {} not loaded, ignoring mixin: {}", mod, mixinClassName);
             return false;
         }

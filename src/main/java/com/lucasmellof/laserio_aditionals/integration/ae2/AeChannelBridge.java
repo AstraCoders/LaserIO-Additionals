@@ -8,15 +8,14 @@ import appeng.api.networking.IGridNodeListener;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.util.AECableType;
 import com.direwolf20.laserio.common.blockentities.LaserNodeBE;
-import com.direwolf20.laserio.common.containers.LaserNodeContainer;
 import com.direwolf20.laserio.common.items.cards.BaseCard;
+import com.lucasmellof.laserio_aditionals.LaserNodeCardRegistry;
 import com.lucasmellof.laserio_aditionals.common.ILaserNodeCardHost;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -49,10 +48,10 @@ public class AeChannelBridge {
         for (BridgeEndpoint source : localEndpoints) {
             for (GlobalPos position : networkNodes) {
                 ServerLevel targetLevel = server.getLevel(position.dimension());
-                if (targetLevel == null || !(targetLevel.getBlockEntity(position.pos()) instanceof LaserNodeBE)) {
+                if (targetLevel == null || !(targetLevel.getBlockEntity(position.pos()) instanceof LaserNodeBE targetNode)) {
                     continue;
                 }
-                Ae2NodeAdditions target = ILaserNodeCardHost.get(targetLevel, Ae2NodeAdditions.class);
+                Ae2NodeAdditions target = ILaserNodeCardHost.get(targetNode, Ae2NodeAdditions.class);
                 for (BridgeEndpoint destination : endpointsFor(target, target.getNodes())) {
                     if (source.node == destination.node || source.channel != destination.channel) {
                         continue;
@@ -131,12 +130,7 @@ public class AeChannelBridge {
     }
 
     private static boolean hasChannelCard(LaserNodeBE node, Direction side) {
-        for (int slot = 0; slot < LaserNodeContainer.CARDSLOTS; slot++) {
-            if (node.nodeSideCaches[side.ordinal()].itemHandler.getStackInSlot(slot).getItem() instanceof ChannelCard) {
-                return true;
-            }
-        }
-        return false;
+        return LaserNodeCardRegistry.find(node, side, ChannelCard.class).isPresent();
     }
 
     private static List<BridgeEndpoint> endpointsFor(Ae2NodeAdditions host, Map<Direction, IManagedGridNode> nodes) {
@@ -153,13 +147,9 @@ public class AeChannelBridge {
     }
 
     private static int findChannel(LaserNodeBE node, Direction side) {
-        for (int slot = 0; slot < LaserNodeContainer.CARDSLOTS; slot++) {
-            ItemStack card = node.nodeSideCaches[side.ordinal()].itemHandler.getStackInSlot(slot);
-            if (card.getItem() instanceof ChannelCard) {
-                return BaseCard.getChannel(card);
-            }
-        }
-        return -1;
+        return LaserNodeCardRegistry.find(node, side, ChannelCard.class)
+                .map(card -> (int) BaseCard.getChannel(card.stack()))
+                .orElse(-1);
     }
 
     private static void connect(BridgePair pair, BridgeEndpoint source, BridgeEndpoint destination) {

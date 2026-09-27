@@ -5,6 +5,7 @@ import com.lucasmellof.laserio_aditionals.common.ILaserNodeCardHost;
 import com.lucasmellof.laserio_aditionals.integration.pneumaticcraft.PneumaticCraftNodeAdditions;
 import me.desht.pneumaticcraft.api.tileentity.IAirHandlerMachine;
 import me.desht.pneumaticcraft.api.tileentity.IAirListener;
+import net.minecraft.core.Direction;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.List;
@@ -17,5 +18,10 @@ public abstract class MixinLaserNodePneumaticCraft implements IAirListener {
     @Override
     public List<IAirHandlerMachine> addConnectedPneumatics(List<IAirHandlerMachine> handlers) {
         return ILaserNodeCardHost.get(this, PneumaticCraftNodeAdditions.class).addConnectedPneumatics(handlers);
+    }
+
+    @Override
+    public int getMaxDispersion(IAirHandlerMachine handler, Direction side) {
+        return ILaserNodeCardHost.get(this, PneumaticCraftNodeAdditions.class).getMaxDispersion(handler, side);
     }
 }

@@ -17,6 +17,7 @@ public final class PneumaticCraftIntegration {
 
     public static void initialize(IEventBus modBus) {
         LaserNodeCardRegistry.register(PneumaticCraftNodeAdditions::new);
+        LaserNodeCardRegistry.registerMenu(PressureCard.class, PressureCardMenu::new);
         PneumaticCraftIntegrationItems.init(modBus);
         modBus.addListener(PneumaticCraftIntegration::registerCapabilities);
     }

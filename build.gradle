@@ -38,7 +38,7 @@ dependencies {
     compileOnly "curse.maven:laserio-626839:5730007"
     runtimeOnly "curse.maven:laserio-626839:5730007"
     compileOnly "curse.maven:pneumaticcraft-repressurized-281849:5619556"
-    runtimeOnly "curse.maven:pneumaticcraft-repressurized-281849:5619556"
+//    runtimeOnly "curse.maven:pneumaticcraft-repressurized-281849:5619556"
     compileOnly "curse.maven:applied-energistics-2-223794:5610903"
     runtimeOnly "curse.maven:applied-energistics-2-223794:5610903"
 }

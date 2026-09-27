@@ -15,6 +15,7 @@ public final class LaserioAdditionals {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public LaserioAdditionals(IEventBus modBus, ModContainer container) {
+        LaserioAdditionalsCreativeTab.init(modBus);
         if (ModList.get().isLoaded("ae2")) {
             Ae2Integration.initialize(modBus);
         }

@@ -1,15 +1,14 @@
 package com.lucasmellof.laserio_aditionals.integration.pneumaticcraft;
 
 import com.direwolf20.laserio.common.blockentities.LaserNodeBE;
-import com.direwolf20.laserio.common.containers.LaserNodeContainer;
 import com.direwolf20.laserio.common.items.cards.BaseCard;
+import com.lucasmellof.laserio_aditionals.LaserNodeCardRegistry;
 import com.lucasmellof.laserio_aditionals.common.ILaserNodeCardHost;
 import me.desht.pneumaticcraft.api.tileentity.IAirHandlerMachine;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -56,25 +55,18 @@ public final class PressureBridge {
 
     private static List<PressureEndpoint> endpointsFor(LaserNodeBE node, ServerLevel level) {
         List<PressureEndpoint> endpoints = new ArrayList<>();
-        if (!(node instanceof ILaserNodeCardHost host)) {
+        if (!(node instanceof ILaserNodeCardHost)) {
             return endpoints;
         }
         PneumaticCraftNodeAdditions additions =
-                host.laserioAdditionals$getCardIntegration(PneumaticCraftNodeAdditions.class);
-        for (Direction side : Direction.values()) {
-            for (int slot = 0; slot < LaserNodeContainer.CARDSLOTS; slot++) {
-                ItemStack stack = node.nodeSideCaches[side.ordinal()].itemHandler.getStackInSlot(slot);
-                if (stack.getItem() instanceof PressureCard) {
-                    endpoints.add(new PressureEndpoint(
-                            node,
-                            additions,
-                            level,
-                            side,
-                            BaseCard.getChannel(stack),
-                            BaseCard.getNamedTransferMode(stack)));
-                }
-            }
-        }
+                ILaserNodeCardHost.get(node, PneumaticCraftNodeAdditions.class);
+        LaserNodeCardRegistry.forEach(node, PressureCard.class, card -> endpoints.add(new PressureEndpoint(
+                node,
+                additions,
+                level,
+                card.side(),
+                BaseCard.getChannel(card.stack()),
+                BaseCard.getNamedTransferMode(card.stack()))));
         return endpoints;
     }
 

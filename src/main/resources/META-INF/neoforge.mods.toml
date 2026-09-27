@@ -37,12 +37,14 @@ side = "BOTH"
 modId = "pneumaticcraft"
 mandatory = false
 versionRange = "[8.0.3,9)"
+type = "optional"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
 modId = "ae2"
 mandatory = false
+type = "optional"
 versionRange = "[19.0.20-beta,20)"
 ordering = "AFTER"
 side = "BOTH"

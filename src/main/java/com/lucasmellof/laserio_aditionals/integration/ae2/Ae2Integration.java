@@ -16,6 +16,7 @@ public class Ae2Integration {
 
     public static void initialize(IEventBus modBus) {
         LaserNodeCardRegistry.register(Ae2NodeAdditions::new);
+        LaserNodeCardRegistry.registerMenu(ChannelCard.class, ChannelCardMenu::new);
         Ae2IntegrationItems.init(modBus);
         modBus.addListener(Ae2Integration::registerCapabilities);
     }

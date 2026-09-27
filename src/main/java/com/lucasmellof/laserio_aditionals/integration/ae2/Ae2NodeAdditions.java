@@ -6,13 +6,11 @@ import appeng.api.networking.IManagedGridNode;
 import appeng.api.util.AECableType;
 import com.direwolf20.laserio.common.blockentities.LaserNodeBE;
 import com.direwolf20.laserio.util.CardRender;
+import com.lucasmellof.laserio_aditionals.LaserNodeCardRegistry;
 import com.lucasmellof.laserio_aditionals.common.LaserNodeCardExtension;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
@@ -87,24 +85,14 @@ public class Ae2NodeAdditions implements LaserNodeCardExtension, IInWorldGridNod
         if (level == null || !level.isClientSide) {
             return;
         }
-        for (Direction side : Direction.values()) {
-            IItemHandler cards = level.getCapability(Capabilities.ItemHandler.BLOCK, node.getBlockPos(), side);
-            if (cards == null) {
-                continue;
-            }
-            for (int slot = 0; slot < cards.getSlots(); slot++) {
-                ItemStack card = cards.getStackInSlot(slot);
-                if (!(card.getItem() instanceof ChannelCard)) {
-                    continue;
-                }
-                CardRender render = new CardRender(side, slot, card, node.getBlockPos(), level, true);
-                render.r = FLUIX_PURPLE[0];
-                render.g = FLUIX_PURPLE[1];
-                render.b = FLUIX_PURPLE[2];
-                render.floatcolors = FLUIX_PURPLE.clone();
-                makeBeamStraight(render, side);
-                node.cardRenders.add(render);
-            }
-        }
+        LaserNodeCardRegistry.forEach(node, ChannelCard.class, card -> {
+            CardRender render = new CardRender(card.side(), card.slot(), card.stack(), node.getBlockPos(), level, true);
+            render.r = FLUIX_PURPLE[0];
+            render.g = FLUIX_PURPLE[1];
+            render.b = FLUIX_PURPLE[2];
+            render.floatcolors = FLUIX_PURPLE.clone();
+            makeBeamStraight(render, card.side());
+            node.cardRenders.add(render);
+        });
     }
 }

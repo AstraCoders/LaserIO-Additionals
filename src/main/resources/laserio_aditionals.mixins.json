@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "MixinLaserNodeBE",
+    "MixinPacketOpenCard",
     "mods.pneumaticcraft.MixinLaserNodePneumaticCraft"
   ],
   "injectors": {
