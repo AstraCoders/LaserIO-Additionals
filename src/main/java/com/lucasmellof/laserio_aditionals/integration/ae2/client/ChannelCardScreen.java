@@ -6,7 +6,7 @@ import com.direwolf20.laserio.common.items.cards.BaseCard;
 import com.direwolf20.laserio.common.network.data.OpenNodePayload;
 import com.direwolf20.laserio.common.network.data.UpdateCardPayload;
 import com.direwolf20.laserio.util.MiscTools;
-import com.lucasmellof.laserio_aditionals.integration.ae2.ChannelCardMenu;
+import com.lucasmellof.laserio_aditionals.integration.common.ChannelCardMenu;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

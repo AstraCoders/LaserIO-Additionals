@@ -11,6 +11,8 @@ import com.direwolf20.laserio.common.blockentities.LaserNodeBE;
 import com.direwolf20.laserio.common.items.cards.BaseCard;
 import com.lucasmellof.laserio_aditionals.LaserNodeCardRegistry;
 import com.lucasmellof.laserio_aditionals.common.ILaserNodeCardHost;
+import com.lucasmellof.laserio_aditionals.integration.common.ChannelCard;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;

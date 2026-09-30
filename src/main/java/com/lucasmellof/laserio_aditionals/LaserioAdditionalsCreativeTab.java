@@ -3,6 +3,7 @@ package com.lucasmellof.laserio_aditionals;
 import com.direwolf20.laserio.setup.Registration;
 import com.lucasmellof.laserio_aditionals.integration.ae2.Ae2IntegrationItems;
 import com.lucasmellof.laserio_aditionals.integration.pneumaticcraft.PneumaticCraftIntegrationItems;
+import com.lucasmellof.laserio_aditionals.integration.refinedstorage.RefinedStorageIntegrationItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -30,6 +31,9 @@ public final class LaserioAdditionalsCreativeTab {
                         }
                         if (PneumaticCraftIntegrationItems.PRESSURE_CARD.isBound()) {
                             output.accept(PneumaticCraftIntegrationItems.PRESSURE_CARD.get());
+                        }
+                        if (RefinedStorageIntegrationItems.REFINED_STORAGE_CARD.isBound()) {
+                            output.accept(RefinedStorageIntegrationItems.REFINED_STORAGE_CARD.get());
                         }
                     })
                     .build());

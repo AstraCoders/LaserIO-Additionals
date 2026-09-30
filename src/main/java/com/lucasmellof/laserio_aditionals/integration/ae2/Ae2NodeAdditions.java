@@ -8,6 +8,8 @@ import com.direwolf20.laserio.common.blockentities.LaserNodeBE;
 import com.direwolf20.laserio.util.CardRender;
 import com.lucasmellof.laserio_aditionals.LaserNodeCardRegistry;
 import com.lucasmellof.laserio_aditionals.common.LaserNodeCardExtension;
+import com.lucasmellof.laserio_aditionals.integration.common.ChannelCard;
+
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.world.level.Level;

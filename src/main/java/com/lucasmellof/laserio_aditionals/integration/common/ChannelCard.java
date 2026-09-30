@@ -1,8 +1,9 @@
-package com.lucasmellof.laserio_aditionals.integration.ae2;
+package com.lucasmellof.laserio_aditionals.integration.common;
 
 import com.direwolf20.laserio.client.blockentityrenders.LaserNodeBERender;
 import com.direwolf20.laserio.common.items.cards.BaseCard;
 import com.direwolf20.laserio.util.MiscTools;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -23,9 +24,9 @@ import net.neoforged.api.distmarker.OnlyIn;
 import java.util.List;
 
 /*
- * @author Lucasmellof, Lucas de Mello Freitas created on 26/09/2026
+ * @author Lucasmellof, Lucas de Mello Freitas created on 30/09/2026
  */
-public final class ChannelCard extends BaseCard {
+public class ChannelCard extends BaseCard {
     public ChannelCard() {
         CARDTYPE = CardType.MISSING;
     }

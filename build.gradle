@@ -44,6 +44,7 @@ dependencies {
 //    runtimeOnly "curse.maven:pneumaticcraft-repressurized-281849:5619556"
     compileOnly "curse.maven:applied-energistics-2-223794:5610903"
     runtimeOnly "curse.maven:applied-energistics-2-223794:5610903"
+    implementation "curse.maven:refined-storage-243076:8211701"
 }
 
 tasks.withType(ProcessResources).configureEach {
@@ -91,4 +92,5 @@ task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge)
     mainFile.addRequirement("laserio")
     mainFile.addRelation("applied-energistics-2", "optionalDependency")
     mainFile.addRelation("pneumaticcraft-repressurized", "optionalDependency")
+    mainFile.addRelation("refined-storage", "optionalDependency")
 }

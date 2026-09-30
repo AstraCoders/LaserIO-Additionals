@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.lucasmellof.laserio_aditionals.mixin",
+  "plugin": "com.lucasmellof.laserio_aditionals.LaserIOIntegrationsMixinPlugin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "MixinLaserNodeBE",
+    "MixinPacketOpenCard",
+    "mods.pneumaticcraft.MixinLaserNodePneumaticCraft"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
